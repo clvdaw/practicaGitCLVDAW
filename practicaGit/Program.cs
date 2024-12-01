@@ -3,25 +3,38 @@ namespace practicaGit
     internal static class Program
     {
         /// <summary>
-        ///  The main entry point for the application.
+        /// The main entry point for the application.
         /// </summary>
         [STAThread]
+        static void Main()
+        {
+            // To customize application configuration such as set high DPI settings or default font,
+            // see https://aka.ms/applicationconfiguration.
+            ApplicationConfiguration.Initialize();
+            Application.Run(new Form1());
+        }
+    }
+
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
         private void btnCalcularPrecio_Click(object sender, EventArgs e)
         {
-            string textoTelegrama;
+            string textoTelegrama = textBox1.Text;
             char tipoTelegrama = ' ';
-            int numPalabras = 0;
+            int numPalabras = textoTelegrama.Length;
             double coste;
-            //Leo el telegrama
-            textoTelegrama = txtTelegrama.Text;
-            // telegrama urgente?
-            if (chkUrgente.Checked)
+
+            if (checkBox1.Checked)
             {
                 tipoTelegrama = 'u';
             }
-            //Obtengo el número de palabras que forma el telegrama
-            numPalabras = textoTelegrama.Length;
-            //Si el telegrama es ordinario
+
+            
             if (tipoTelegrama == 'o')
             {
                 if (numPalabras <= 10)
@@ -33,33 +46,23 @@ namespace practicaGit
                     coste = 0.5 * numPalabras;
                 }
             }
-            else
-            //Si el telegrama es urgente
+            else if (tipoTelegrama == 'u')
             {
-                if (tipoTelegrama == 'u')
+                if (numPalabras <= 10)
                 {
-                    if (numPalabras <= 10)
-                    {
-                        coste = 5;
-                    }
-                    else
-                    {
-                        coste = 5 + 0.75 * (numPalabras - 10);
-                    }
+                    coste = 5;
                 }
                 else
                 {
-                    coste = 0;
+                    coste = 5 + 0.75 * (numPalabras - 10);
                 }
             }
-            txtPrecio.Text = coste.ToString() + " euros";
-        }
-        static void Main()
-        {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            else
+            {
+                coste = 0;
+            }
+
+            textBox2.Text = coste.ToString() + " euros";
         }
     }
 }
